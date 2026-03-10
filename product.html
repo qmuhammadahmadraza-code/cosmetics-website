@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product — Verdure Beauty</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .product-page { padding: 4rem 5%; max-width: 1200px; margin: 0 auto; }
+    .breadcrumb {
+      font-size: 0.85rem;
+      color: var(--grey-text);
+      margin-bottom: 2.5rem;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .breadcrumb a { color: var(--grey-text); transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--mint-dark); }
+    .breadcrumb span { color: var(--grey-mid); }
+
+    .product-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    /* Gallery */
+    .gallery-main {
+      border-radius: 20px;
+      overflow: hidden;
+      height: 480px;
+      background: var(--grey-light);
+      opacity: 0;
+      transform: translateX(-40px);
+      animation: slideIn 0.8s ease 0.2s forwards;
+    }
+    .gallery-main img { height: 100%; object-fit: cover; }
+    .gallery-thumbs {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      opacity: 0;
+      animation: slideIn 0.8s ease 0.4s forwards;
+    }
+    .thumb {
+      width: 72px; height: 72px;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.2s;
+      flex-shrink: 0;
+    }
+    .thumb.active { border-color: var(--mint-dark); }
+    .thumb img { height: 100%; object-fit: cover; }
+
+    /* Product Info */
+    .product-detail {
+      opacity: 0;
+      transform: translateX(40px);
+      animation: slideIn 0.8s ease 0.35s forwards;
+    }
+    @keyframes slideIn { to { opacity: 1; transform: none; } }
+
+    .product-detail .product-tag {
+      position: static;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .product-detail h1 {
+      font-family: 'Comfortaa', cursive;
+      font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+      margin-bottom: 0.75rem;
+    }
+    .detail-stars { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.25rem; }
+    .detail-stars .stars { font-size: 1rem; }
+    .detail-stars span { font-size: 0.85rem; color: var(--grey-text); }
+    .detail-price {
+      font-family: 'Comfortaa', cursive;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--charcoal);
+      margin-bottom: 1.5rem;
+    }
+    .detail-desc {
+      font-size: 0.97rem;
+      line-height: 1.8;
+      color: #444;
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--grey-mid);
+    }
+    .ingredients h4 {
+      font-family: 'Comfortaa', cursive;
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+      color: var(--charcoal-soft);
+    }
+    .ingredient-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+    .ingredient-tag {
+      background: var(--mint-ultra);
+      color: var(--mint-dark);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.35rem 0.9rem;
+      border-radius: 50px;
+      border: 1px solid var(--mint-light);
+    }
+    .qty-row {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .qty-label { font-weight: 700; font-size: 0.9rem; }
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 2px solid var(--grey-mid);
+      border-radius: 50px;
+      overflow: hidden;
+    }
+    .qty-btn {
+      background: none;
+      border: none;
+      width: 38px; height: 38px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--charcoal);
+      transition: background 0.2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .qty-btn:hover { background: var(--mint-ultra); }
+    .qty-num {
+      width: 44px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      outline: none;
+      font-family: 'Nunito', sans-serif;
+    }
+    .add-btn-wrap { display: flex; gap: 1rem; }
+    .btn-add-big {
+      flex: 1;
+      background: var(--charcoal);
+      color: white;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .btn-add-big:hover {
+      background: var(--mint-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(123,191,156,0.35);
+    }
+    .btn-add-big.added { background: var(--mint-dark); }
+
+    /* Related */
+    .related-section { padding: 5rem 5%; background: var(--grey-light); }
+
+    @media (max-width: 768px) {
+      .product-layout { grid-template-columns: 1fr; gap: 2rem; }
+      .gallery-main { height: 320px; }
+    }
+  </style>
+</head>
+<body>
+  <script src="cart.js"></script>
+  <script>injectNav('shop');</script>
+
+  <div class="product-page">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span>/</span>
+      <a href="shop.html">Shop</a>
+      <span>/</span>
+      <span id="bc-name">Product</span>
+    </div>
+
+    <div class="product-layout">
+      <!-- Gallery -->
+      <div>
+        <div class="gallery-main" id="gallery-main">
+          <img id="main-img" src="" alt="Product" />
+        </div>
+        <div class="gallery-thumbs" id="gallery-thumbs"></div>
+      </div>
+
+      <!-- Details -->
+      <div class="product-detail">
+        <span class="product-tag" id="det-cat"></span>
+        <h1 id="det-name"></h1>
+        <div class="detail-stars">
+          <div class="stars" id="det-stars"></div>
+          <span id="det-rating"></span>
+        </div>
+        <div class="detail-price" id="det-price"></div>
+        <p class="detail-desc" id="det-desc"></p>
+        <div class="ingredients">
+          <h4>Key Ingredients</h4>
+          <div class="ingredient-tags" id="det-ingredients"></div>
+        </div>
+        <div class="qty-row">
+          <span class="qty-label">Qty</span>
+          <div class="qty-controls">
+            <button class="qty-btn" id="qty-minus">−</button>
+            <input class="qty-num" id="qty-num" type="number" value="1" min="1" max="10" readonly />
+            <button class="qty-btn" id="qty-plus">+</button>
+          </div>
+        </div>
+        <div class="add-btn-wrap">
+          <button class="btn-add-big" id="add-to-cart-btn">Add to Cart</button>
+          <a href="cart.html" class="btn-mint" style="padding:1rem 1.5rem;">View Cart</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Related Products -->
+  <section class="related-section">
+    <div class="section-head reveal fade-up">
+      <h2 class="section-title">You Might Also Like</h2>
+    </div>
+    <div class="products-grid" id="related-grid"></div>
+  </section>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id') || 'p1';
+    const product = PRODUCTS.find(p => p.id === id) || PRODUCTS[0];
+
+    // Extra images (use picsum variants)
+    const extraImgs = [
+      product.img,
+      `https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&q=80`,
+      `https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&q=80`,
+      `https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400&q=80`,
+    ];
+
+    const descMap = {
+      skincare: 'A lightweight, fast-absorbing formula packed with plant-based actives. Designed to deeply nourish, restore balance, and leave your skin visibly radiant. Suitable for all skin types, including sensitive skin. Free from parabens, sulphates, and artificial fragrance.',
+      makeup: 'A breathable, skin-friendly formula that provides beautiful, natural coverage without feeling heavy. Buildable finish, long-lasting wear. Infused with nourishing botanicals to care for your skin while you wear it.'
+    };
+
+    const ingredientsMap = {
+      skincare: ['Aloe Vera', 'Hyaluronic Acid', 'Green Tea Extract', 'Vitamin C', 'Rosehip Oil', 'Niacinamide'],
+      makeup: ['Jojoba Oil', 'Shea Butter', 'Vitamin E', 'Chamomile Extract', 'Arrowroot Powder', 'Plant Pigments']
+    };
+
+    // Populate
+    document.getElementById('bc-name').textContent = product.name;
+    document.getElementById('main-img').src = product.img;
+    document.getElementById('det-cat').textContent = product.category;
+    document.getElementById('det-cat').style.background = product.category === 'skincare' ? 'var(--mint-dark)' : '#c47a8a';
+    document.getElementById('det-cat').style.color = 'white';
+    document.getElementById('det-cat').style.fontSize = '0.75rem';
+    document.getElementById('det-cat').style.fontWeight = '700';
+    document.getElementById('det-cat').style.padding = '4px 12px';
+    document.getElementById('det-cat').style.borderRadius = '20px';
+    document.getElementById('det-cat').style.textTransform = 'uppercase';
+    document.getElementById('det-name').textContent = product.name;
+    document.getElementById('det-stars').innerHTML = renderStars(product.rating);
+    document.getElementById('det-rating').textContent = `${product.rating}.0 (124 reviews)`;
+    document.getElementById('det-price').textContent = `$${product.price.toFixed(2)}`;
+    document.getElementById('det-desc').textContent = descMap[product.category];
+
+    const ingreds = ingredientsMap[product.category];
+    document.getElementById('det-ingredients').innerHTML = ingreds.map(i => `<span class="ingredient-tag">${i}</span>`).join('');
+
+    // Thumbnails
+    const thumbsEl = document.getElementById('gallery-thumbs');
+    thumbsEl.innerHTML = extraImgs.map((img, i) => `
+      <div class="thumb ${i === 0 ? 'active' : ''}" onclick="swapImg('${img}', this)">
+        <img src="${img}" alt="View ${i+1}" />
+      </div>
+    `).join('');
+
+    function swapImg(src, el) {
+      document.getElementById('main-img').src = src;
+      document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    // Quantity
+    let qty = 1;
+    document.getElementById('qty-minus').addEventListener('click', () => {
+      if (qty > 1) { qty--; document.getElementById('qty-num').value = qty; }
+    });
+    document.getElementById('qty-plus').addEventListener('click', () => {
+      if (qty < 10) { qty++; document.getElementById('qty-num').value = qty; }
+    });
+
+    // Add to cart
+    document.getElementById('add-to-cart-btn').addEventListener('click', function() {
+      for (let i = 0; i < qty; i++) Cart.add(product);
+      this.classList.add('added');
+      this.textContent = '✓ Added to Cart';
+      setTimeout(() => {
+        this.classList.remove('added');
+        this.textContent = 'Add to Cart';
+      }, 1800);
+    });
+
+    // Related products
+    const related = PRODUCTS.filter(p => p.id !== product.id && p.category === product.category).slice(0, 4);
+    document.getElementById('related-grid').innerHTML = related.map((p, i) => productCard(p, i * 80)).join('');
+
+    initScrollReveal();
+  </script>
+</body>
+</html>

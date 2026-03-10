@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Verdure Beauty</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .contact-banner {
+      background: linear-gradient(135deg, var(--mint-ultra) 0%, #e8f5ee 100%);
+      padding: 5rem 5% 3rem;
+      text-align: center;
+    }
+    .contact-section {
+      padding: 5rem 5%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .contact-info h2 {
+      font-family: 'Comfortaa', cursive;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      margin-bottom: 1rem;
+    }
+    .contact-info p {
+      font-size: 0.97rem;
+      line-height: 1.8;
+      color: #555;
+      margin-bottom: 2.5rem;
+    }
+    .contact-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .contact-icon {
+      width: 42px; height: 42px;
+      background: var(--mint-ultra);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .contact-detail-text h4 {
+      font-family: 'Comfortaa', cursive;
+      font-size: 0.9rem;
+      margin-bottom: 0.2rem;
+    }
+    .contact-detail-text p {
+      font-size: 0.88rem;
+      color: var(--grey-text);
+      margin: 0;
+    }
+    .contact-socials {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+    .contact-social-btn {
+      width: 42px; height: 42px;
+      background: var(--grey-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--charcoal);
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+    }
+    .contact-social-btn:hover {
+      background: var(--mint-dark);
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    /* Form */
+    .contact-form-wrap {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: var(--shadow);
+    }
+    .contact-form-wrap h3 {
+      font-family: 'Comfortaa', cursive;
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+    }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: var(--charcoal-soft);
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.8rem 1.1rem;
+      border: 2px solid var(--grey-mid);
+      border-radius: 12px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.95rem;
+      color: var(--charcoal);
+      background: var(--white);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      resize: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--mint-dark);
+      box-shadow: 0 0 0 3px rgba(168,213,186,0.2);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .submit-btn {
+      width: 100%;
+      background: var(--charcoal);
+      color: white;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 1rem;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s;
+      margin-top: 0.5rem;
+    }
+    .submit-btn:hover {
+      background: var(--mint-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(123,191,156,0.3);
+    }
+
+    /* Success Message */
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+    .success-msg.show { display: block; animation: fadeInUp 0.6s ease; }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: none; }
+    }
+    .success-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .success-msg h3 { font-family: 'Comfortaa', cursive; font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .success-msg p { color: var(--grey-text); }
+
+    @media (max-width: 768px) {
+      .contact-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <script src="cart.js"></script>
+  <script>injectNav('contact');</script>
+
+  <div class="contact-banner">
+    <h1 class="page-banner-title">Contact Us</h1>
+    <p class="page-banner-sub">We'd love to hear from you</p>
+  </div>
+
+  <section class="contact-section">
+    <div class="contact-layout">
+      <div class="contact-info reveal fade-left">
+        <h2>Get in Touch</h2>
+        <p>Have a question about a product? Want to know what's right for your skin? Or just want to say hi? We read every message and reply within 24 hours.</p>
+
+        <div class="contact-detail">
+          <div class="contact-icon">📧</div>
+          <div class="contact-detail-text">
+            <h4>Email</h4>
+            <p>hello@verdurebeauty.com</p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">⏰</div>
+          <div class="contact-detail-text">
+            <h4>Response Time</h4>
+            <p>Within 24 hours, Mon–Fri</p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">📦</div>
+          <div class="contact-detail-text">
+            <h4>Order Enquiries</h4>
+            <p>Include your order number for faster help</p>
+          </div>
+        </div>
+
+        <div class="contact-socials">
+          <a href="#" class="contact-social-btn" aria-label="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="#" class="contact-social-btn" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+          <a href="#" class="contact-social-btn" aria-label="Twitter">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+          </a>
+          <a href="#" class="contact-social-btn" aria-label="TikTok">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 104 4V4a5 5 0 005 5"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-form-wrap reveal fade-right">
+        <div id="form-container">
+          <h3>Send us a message</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" id="fname" placeholder="Sarah" />
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" id="lname" placeholder="Miller" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="sarah@example.com" />
+          </div>
+          <div class="form-group">
+            <label>Subject</label>
+            <select id="subject">
+              <option value="">Select a topic</option>
+              <option>Product Question</option>
+              <option>Order Issue</option>
+              <option>Returns & Refunds</option>
+              <option>Partnership</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea id="message" rows="5" placeholder="Tell us what's on your mind..."></textarea>
+          </div>
+          <button class="submit-btn" onclick="submitForm()">Send Message →</button>
+        </div>
+        <div class="success-msg" id="success-msg">
+          <div class="success-icon">🌿</div>
+          <h3>Message Sent!</h3>
+          <p>Thank you for reaching out. We'll get back to you within 24 hours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function submitForm() {
+      const fname = document.getElementById('fname').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      if (!fname || !email || !message) {
+        alert('Please fill in your name, email, and message.');
+        return;
+      }
+      document.getElementById('form-container').style.display = 'none';
+      document.getElementById('success-msg').classList.add('show');
+    }
+    initScrollReveal();
+  </script>
+</body>
+</html>

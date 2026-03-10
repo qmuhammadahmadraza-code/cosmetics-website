@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skincare — Verdure Beauty</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .skincare-banner {
+      background: linear-gradient(135deg, #d4ede0 0%, #e8f5ee 50%, #f0faf4 100%);
+      padding: 5rem 5% 3.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .skincare-banner::before {
+      content: '🌿';
+      position: absolute;
+      font-size: 12rem;
+      opacity: 0.07;
+      top: -2rem;
+      right: 5%;
+      pointer-events: none;
+    }
+    .skincare-banner .page-banner-title { color: #2d5a3d; }
+    .skincare-banner .page-banner-sub { color: #5a8c6e; }
+    .skincare-banner .banner-tag {
+      display: inline-block;
+      background: rgba(123,191,156,0.2);
+      border: 1px solid var(--mint-dark);
+      color: #2d5a3d;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.35rem 1.1rem;
+      border-radius: 50px;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: bannerIn 0.8s ease 0.1s forwards;
+    }
+    .shop-section { padding: 4rem 5%; }
+    .benefits-bar {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 2rem 5%;
+      background: var(--white);
+      border-bottom: 1px solid var(--grey-mid);
+    }
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--charcoal-soft);
+    }
+    .benefit-item span { font-size: 1.2rem; }
+  </style>
+</head>
+<body>
+  <script src="cart.js"></script>
+  <script>injectNav('skincare');</script>
+
+  <div class="skincare-banner">
+    <span class="banner-tag">🌱 Plant-Based Formulas</span>
+    <h1 class="page-banner-title">Skincare</h1>
+    <p class="page-banner-sub">Feed your skin with nature's finest ingredients</p>
+  </div>
+
+  <div class="benefits-bar">
+    <div class="benefit-item"><span>🌿</span> 100% Natural</div>
+    <div class="benefit-item"><span>🐰</span> Cruelty Free</div>
+    <div class="benefit-item"><span>♻️</span> Sustainable</div>
+    <div class="benefit-item"><span>🧪</span> Dermatologist Tested</div>
+  </div>
+
+  <section class="shop-section">
+    <div class="section-head reveal fade-up">
+      <h2 class="section-title">All Skincare</h2>
+      <p class="section-subtitle">Serums, moisturizers, toners and more — made to work with your skin, not against it.</p>
+    </div>
+    <div class="products-grid" id="skincare-grid"></div>
+  </section>
+
+  <script>
+    const skincareProducts = PRODUCTS.filter(p => p.category === 'skincare');
+    const grid = document.getElementById('skincare-grid');
+    grid.innerHTML = skincareProducts.map((p, i) => productCard(p, i * 80)).join('');
+    initScrollReveal();
+  </script>
+</body>
+</html>

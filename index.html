@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verdure Beauty — Fresh & Natural Cosmetics</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── HERO ── */
+    .hero {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: -1;
+    }
+    .hero-section {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-top: calc(-1 * var(--nav-h));
+    }
+    .hero-video-wrap {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .hero-video-wrap video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(20,30,20,0.55) 0%, rgba(10,20,15,0.4) 100%);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      color: white;
+      max-width: 680px;
+      padding: 0 2rem;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(168,213,186,0.25);
+      border: 1px solid rgba(168,213,186,0.5);
+      color: var(--mint-light);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.4rem 1.2rem;
+      border-radius: 50px;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: heroIn 1s ease 0.3s forwards;
+    }
+    .hero-title {
+      font-family: 'Comfortaa', cursive;
+      font-size: clamp(2.8rem, 8vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      margin-bottom: 1.25rem;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: heroIn 1s cubic-bezier(0.4, 0, 0.2, 1) 0.55s forwards;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: var(--mint-light);
+    }
+    .hero-sub {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.78);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: heroIn 1s ease 0.8s forwards;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: heroIn 1s ease 1s forwards;
+    }
+    .hero-btns .btn-outline { color: white; border-color: rgba(255,255,255,0.7); }
+    .hero-btns .btn-outline:hover { background: white; color: var(--charcoal); }
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: heroIn 1s ease 1.3s forwards;
+    }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: rgba(255,255,255,0.4);
+      animation: scrollPulse 2s infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; height: 40px; }
+      50% { opacity: 1; height: 56px; }
+    }
+    @keyframes heroIn {
+      to { opacity: 1; transform: none; }
+    }
+
+    /* ── BESTSELLERS ── */
+    .bestsellers { padding: 6rem 5%; background: var(--white); }
+
+    /* ── CATEGORIES ── */
+    .categories-section { padding: 2rem 5% 6rem; }
+    .categories-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .cat-card {
+      position: relative;
+      height: 420px;
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .cat-card img {
+      height: 100%;
+      transition: transform 0.6s ease;
+    }
+    .cat-card:hover img { transform: scale(1.07); }
+    .cat-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,25,15,0.7) 0%, rgba(10,25,15,0.1) 60%);
+      transition: background 0.4s;
+    }
+    .cat-card:hover .cat-overlay {
+      background: linear-gradient(to top, rgba(123,191,156,0.65) 0%, rgba(123,191,156,0.15) 60%);
+    }
+    .cat-content {
+      position: absolute;
+      bottom: 2rem; left: 2rem; right: 2rem;
+      color: white;
+    }
+    .cat-content h3 {
+      font-family: 'Comfortaa', cursive;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 640px) {
+      .categories-grid { grid-template-columns: 1fr; }
+      .cat-card { height: 300px; }
+    }
+
+    /* ── BRAND STORY ── */
+    .story-section { padding: 6rem 5%; background: var(--mint-ultra); }
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .story-img-wrap {
+      border-radius: 20px;
+      overflow: hidden;
+      height: 480px;
+      box-shadow: var(--shadow-hover);
+    }
+    .story-img-wrap img { height: 100%; }
+    .story-text h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); margin-bottom: 1.5rem; }
+    .story-text p {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: #444;
+      margin-bottom: 1.25rem;
+    }
+    @media (max-width: 768px) {
+      .story-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .story-img-wrap { height: 280px; }
+    }
+
+    /* ── PARALLAX ── */
+    .parallax-section {
+      height: 380px;
+      background: url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1400&q=80') center/cover no-repeat fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .parallax-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(123,191,156,0.45);
+    }
+    .parallax-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      color: white;
+    }
+    .parallax-content h2 {
+      font-family: 'Comfortaa', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      margin-bottom: 1rem;
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials { padding: 6rem 5%; }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .testi-card {
+      background: var(--grey-light);
+      border-radius: var(--radius);
+      padding: 2rem;
+    }
+    .testi-stars { color: #f5a623; font-size: 1.1rem; margin-bottom: 1rem; }
+    .testi-quote {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: #444;
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+    .testi-author { display: flex; align-items: center; gap: 0.75rem; }
+    .testi-avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .testi-name { font-weight: 700; font-size: 0.9rem; }
+    .testi-role { font-size: 0.8rem; color: var(--grey-text); }
+    @media (max-width: 768px) { .testimonials-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 1000px) and (min-width: 769px) { .testimonials-grid { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+  <script src="cart.js"></script>
+  <script>injectNav('index');</script>
+
+  <!-- HERO -->
+  <section class="hero-section">
+    <div class="hero-video-wrap">
+      <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1400&q=80">
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="hero-tag">✦ Clean Beauty Since 2019</span>
+      <h1 class="hero-title">Beauty Rooted<br/>in <em>Nature</em></h1>
+      <p class="hero-sub">Gentle formulas. Real ingredients. Made for the woman<br/>who knows what she puts on her skin matters.</p>
+      <div class="hero-btns">
+        <a href="shop.html" class="btn-mint">Shop Now</a>
+        <a href="about.html" class="btn-outline">Our Story</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- BESTSELLERS -->
+  <section class="bestsellers">
+    <div class="section-head reveal fade-left">
+      <h2 class="section-title">Bestsellers</h2>
+      <p class="section-subtitle">Our most-loved products, trusted by thousands of women.</p>
+    </div>
+    <div class="products-grid" id="bestsellers-grid"></div>
+    <div style="text-align:center; margin-top:3rem;">
+      <a href="shop.html" class="btn-outline reveal fade-up">View All Products</a>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="categories-section">
+    <div class="section-head reveal fade-up" style="padding: 0 0 1rem;">
+      <h2 class="section-title">Shop by Category</h2>
+    </div>
+    <div class="categories-grid">
+      <div class="cat-card reveal fade-left">
+        <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&q=80" alt="Skincare" />
+        <div class="cat-overlay"></div>
+        <div class="cat-content">
+          <h3>Skincare</h3>
+          <a href="skincare.html" class="btn-mint">Browse Skincare</a>
+        </div>
+      </div>
+      <div class="cat-card reveal fade-right">
+        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80" alt="Makeup" />
+        <div class="cat-overlay"></div>
+        <div class="cat-content">
+          <h3>Makeup</h3>
+          <a href="makeup.html" class="btn-mint">Browse Makeup</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRAND STORY -->
+  <section class="story-section">
+    <div class="story-grid">
+      <div class="story-img-wrap reveal fade-left">
+        <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=800&q=80" alt="Our Story" />
+      </div>
+      <div class="story-text reveal fade-right">
+        <h2 class="section-title">Why We Started Verdure</h2>
+        <p>We were tired of beauty products full of unpronounceable ingredients. In 2019, we started Verdure with one simple belief — your skin deserves better.</p>
+        <p>Every formula is built around plant-based actives, sourced from sustainable farms. No harsh chemicals. No empty promises. Just clean beauty that works.</p>
+        <a href="about.html" class="btn-mint">Read Our Full Story</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARALLAX BANNER -->
+  <div class="parallax-section">
+    <div class="parallax-overlay"></div>
+    <div class="parallax-content reveal fade-scale">
+      <h2>Nature knows best.</h2>
+      <a href="shop.html" class="btn-mint">Discover Products</a>
+    </div>
+  </div>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="section-head reveal fade-up" style="text-align:center;">
+      <h2 class="section-title">What Women Are Saying</h2>
+      <p class="section-subtitle" style="margin:0.5rem auto 0;">Real reviews from real customers.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testi-card reveal fade-up" style="animation-delay:0ms">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"The Dew Drop Serum changed my skin completely. After three weeks my friends were asking what I was doing differently."</p>
+        <div class="testi-author">
+          <div class="testi-avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt="Sarah" /></div>
+          <div><p class="testi-name">Sarah M.</p><p class="testi-role">Verified Buyer</p></div>
+        </div>
+      </div>
+      <div class="testi-card reveal fade-up" style="animation-delay:120ms">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"I've tried every moisturizer under the sun. Velvet Moisturizer is the only one that doesn't break me out and actually hydrates."</p>
+        <div class="testi-author">
+          <div class="testi-avatar"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100&q=80" alt="Layla" /></div>
+          <div><p class="testi-name">Layla K.</p><p class="testi-role">Verified Buyer</p></div>
+        </div>
+      </div>
+      <div class="testi-card reveal fade-up" style="animation-delay:240ms">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"The packaging is beautiful but the products are even better. Silk Foundation gives the most natural finish I've ever worn."</p>
+        <div class="testi-author">
+          <div class="testi-avatar"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&q=80" alt="Amina" /></div>
+          <div><p class="testi-name">Amina R.</p><p class="testi-role">Verified Buyer</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Render bestsellers (first 4 products)
+    const grid = document.getElementById('bestsellers-grid');
+    grid.innerHTML = PRODUCTS.slice(0, 4).map((p, i) => productCard(p, i * 100)).join('');
+    initScrollReveal();
+  </script>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart — Verdure Beauty</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .cart-page { padding: 3rem 5%; max-width: 1200px; margin: 0 auto; min-height: 60vh; }
+    .cart-page h1 {
+      font-family: 'Comfortaa', cursive;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: bannerIn 0.7s ease 0.1s forwards;
+    }
+    .cart-layout {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    /* Cart Items */
+    .cart-items { display: flex; flex-direction: column; gap: 1rem; }
+    .cart-row {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      background: var(--white);
+      border: 1px solid var(--grey-mid);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      transition: opacity 0.35s, transform 0.35s;
+    }
+    .cart-row.removing {
+      opacity: 0;
+      transform: translateX(60px);
+    }
+    .cart-row-img {
+      width: 90px; height: 90px;
+      border-radius: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .cart-row-img img { height: 100%; object-fit: cover; }
+    .cart-row-info { flex: 1; }
+    .cart-row-name {
+      font-family: 'Comfortaa', cursive;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    .cart-row-cat {
+      font-size: 0.78rem;
+      color: var(--grey-text);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+    .cart-row-price {
+      font-family: 'Comfortaa', cursive;
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+    .cart-row-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.75rem;
+    }
+    .cart-qty-controls {
+      display: flex;
+      align-items: center;
+      border: 2px solid var(--grey-mid);
+      border-radius: 50px;
+      overflow: hidden;
+    }
+    .cqty-btn {
+      background: none; border: none;
+      width: 34px; height: 34px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      color: var(--charcoal);
+      transition: background 0.2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cqty-btn:hover { background: var(--mint-ultra); }
+    .cqty-num {
+      width: 38px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      font-family: 'Nunito', sans-serif;
+    }
+    .cart-remove-btn {
+      background: none; border: none;
+      font-size: 0.82rem;
+      color: var(--grey-text);
+      cursor: pointer;
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+    .cart-remove-btn:hover { color: #e74c3c; }
+
+    /* Empty State */
+    .cart-empty {
+      text-align: center;
+      padding: 5rem 2rem;
+    }
+    .cart-empty-icon { font-size: 5rem; margin-bottom: 1.5rem; }
+    .cart-empty h2 { font-family: 'Comfortaa', cursive; font-size: 1.8rem; margin-bottom: 0.75rem; }
+    .cart-empty p { color: var(--grey-text); margin-bottom: 2rem; }
+
+    /* Order Summary */
+    .order-summary {
+      background: var(--grey-light);
+      border-radius: 20px;
+      padding: 2rem;
+      position: sticky;
+      top: calc(var(--nav-h) + 1rem);
+      opacity: 0;
+      animation: bannerIn 0.7s ease 0.3s forwards;
+    }
+    .order-summary h3 {
+      font-family: 'Comfortaa', cursive;
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.92rem;
+      margin-bottom: 0.75rem;
+      color: #444;
+    }
+    .summary-divider { height: 1px; background: var(--grey-mid); margin: 1rem 0; }
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 1.1rem;
+      font-family: 'Comfortaa', cursive;
+      margin-bottom: 1.5rem;
+    }
+    .shipping-note {
+      font-size: 0.8rem;
+      color: var(--mint-dark);
+      background: var(--mint-ultra);
+      border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .checkout-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: var(--charcoal);
+      color: white;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 1rem;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .checkout-btn:hover {
+      background: var(--mint-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(123,191,156,0.3);
+    }
+    .continue-link {
+      display: block;
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: var(--grey-text);
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .cart-layout { grid-template-columns: 1fr; }
+      .order-summary { position: static; }
+    }
+    @media (max-width: 480px) {
+      .cart-row { flex-wrap: wrap; }
+      .cart-row-img { width: 70px; height: 70px; }
+    }
+  </style>
+</head>
+<body>
+  <script src="cart.js"></script>
+  <script>injectNav('shop');</script>
+
+  <div class="cart-page" id="cart-page">
+    <h1>Your Cart <span id="cart-count-title" style="color:var(--grey-text); font-size:1.2rem;"></span></h1>
+    <div id="cart-content"></div>
+  </div>
+
+  <script>
+    function renderCartPage() {
+      const items = Cart.get();
+      const content = document.getElementById('cart-content');
+      const countEl = document.getElementById('cart-count-title');
+
+      countEl.textContent = items.length > 0 ? `(${Cart.count()} items)` : '';
+
+      if (items.length === 0) {
+        content.innerHTML = `
+          <div class="cart-empty reveal fade-up">
+            <div class="cart-empty-icon">🛒</div>
+            <h2>Your cart is empty</h2>
+            <p>Looks like you haven't added anything yet.</p>
+            <a href="shop.html" class="btn-mint">Start Shopping</a>
+          </div>
+        `;
+        initScrollReveal();
+        return;
+      }
+
+      const subtotal = Cart.total();
+      const shipping = subtotal >= 50 ? 0 : 5.99;
+      const total = subtotal + shipping;
+
+      content.innerHTML = `
+        <div class="cart-layout">
+          <div class="cart-items" id="cart-items-list">
+            ${items.map(item => `
+              <div class="cart-row reveal fade-left" id="crow-${item.id}">
+                <div class="cart-row-img">
+                  <img src="${item.img}" alt="${item.name}" />
+                </div>
+                <div class="cart-row-info">
+                  <p class="cart-row-name">${item.name}</p>
+                  <p class="cart-row-cat">${item.category}</p>
+                  <p class="cart-row-price">$${(item.price * item.qty).toFixed(2)}</p>
+                </div>
+                <div class="cart-row-right">
+                  <div class="cart-qty-controls">
+                    <button class="cqty-btn" onclick="changeQty('${item.id}', -1)">−</button>
+                    <span class="cqty-num">${item.qty}</span>
+                    <button class="cqty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+                  </div>
+                  <button class="cart-remove-btn" onclick="removeItem('${item.id}')">Remove</button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="order-summary">
+            <h3>Order Summary</h3>
+            <div class="summary-row"><span>Subtotal</span><span>$${subtotal.toFixed(2)}</span></div>
+            <div class="summary-row"><span>Shipping</span><span>${shipping === 0 ? 'FREE' : '$' + shipping.toFixed(2)}</span></div>
+            <div class="summary-divider"></div>
+            <div class="summary-total"><span>Total</span><span>$${total.toFixed(2)}</span></div>
+            ${shipping > 0 ? `<div class="shipping-note">🚚 Add $${(50 - subtotal).toFixed(2)} more for free shipping!</div>` : `<div class="shipping-note">🎉 You qualify for free shipping!</div>`}
+            <button class="checkout-btn" onclick="alert('Checkout coming soon — backend in Phase 2!')">Proceed to Checkout</button>
+            <a href="shop.html" class="continue-link">← Continue Shopping</a>
+          </div>
+        </div>
+      `;
+      initScrollReveal();
+    }
+
+    function changeQty(id, delta) {
+      const items = Cart.get();
+      const item = items.find(i => i.id === id);
+      if (!item) return;
+      const newQty = item.qty + delta;
+      if (newQty < 1) { removeItem(id); return; }
+      Cart.updateQty(id, newQty);
+      renderCartPage();
+    }
+
+    function removeItem(id) {
+      const row = document.getElementById(`crow-${id}`);
+      if (row) {
+        row.classList.add('removing');
+        setTimeout(() => {
+          Cart.remove(id);
+          renderCartPage();
+        }, 350);
+      } else {
+        Cart.remove(id);
+        renderCartPage();
+      }
+    }
+
+    renderCartPage();
+  </script>
+</body>
+</html>

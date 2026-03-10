@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop — Verdure Beauty</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .shop-banner {
+      background: linear-gradient(135deg, var(--mint-ultra) 0%, #d4f0e0 100%);
+      padding: 4rem 5% 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .shop-banner::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(168,213,186,0.4), transparent);
+      border-radius: 50%;
+    }
+    .shop-banner::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -40px;
+      width: 240px; height: 240px;
+      background: radial-gradient(circle, rgba(123,191,156,0.25), transparent);
+      border-radius: 50%;
+    }
+    .shop-section { padding: 4rem 5%; }
+    .product-card.hidden {
+      opacity: 0;
+      transform: scale(0.92);
+      pointer-events: none;
+      position: absolute;
+    }
+    .product-card.visible {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+      position: relative;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .products-grid { position: relative; }
+  </style>
+</head>
+<body>
+  <script src="cart.js"></script>
+  <script>injectNav('shop');</script>
+
+  <div class="shop-banner">
+    <h1 class="page-banner-title">Shop</h1>
+    <p class="page-banner-sub">Explore our full collection of clean beauty</p>
+  </div>
+
+  <section class="shop-section">
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="skincare">Skincare</button>
+      <button class="filter-btn" data-filter="makeup">Makeup</button>
+      <select class="sort-select" id="sort-select">
+        <option value="default">Sort by</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="rating">Top Rated</option>
+      </select>
+    </div>
+    <div class="products-grid" id="shop-grid"></div>
+  </section>
+
+  <script>
+    let currentFilter = 'all';
+    let currentSort = 'default';
+
+    function renderProducts() {
+      let filtered = currentFilter === 'all'
+        ? [...PRODUCTS]
+        : PRODUCTS.filter(p => p.category === currentFilter);
+
+      if (currentSort === 'price-asc') filtered.sort((a, b) => a.price - b.price);
+      else if (currentSort === 'price-desc') filtered.sort((a, b) => b.price - a.price);
+      else if (currentSort === 'rating') filtered.sort((a, b) => b.rating - a.rating);
+
+      const grid = document.getElementById('shop-grid');
+      grid.innerHTML = filtered.map((p, i) => productCard(p, i * 60)).join('');
+      initScrollReveal();
+      // trigger reveals for visible items
+      setTimeout(() => {
+        document.querySelectorAll('.reveal').forEach(el => el.classList.add('revealed'));
+      }, 50);
+    }
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        renderProducts();
+      });
+    });
+
+    document.getElementById('sort-select').addEventListener('change', e => {
+      currentSort = e.target.value;
+      renderProducts();
+    });
+
+    renderProducts();
+  </script>
+</body>
+</html>

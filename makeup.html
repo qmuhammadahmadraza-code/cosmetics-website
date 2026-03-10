@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Makeup — Verdure Beauty</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .makeup-banner {
+      background: linear-gradient(135deg, #fce8ec 0%, #fdf0f3 50%, #fff5f7 100%);
+      padding: 5rem 5% 3.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .makeup-banner::before {
+      content: '💄';
+      position: absolute;
+      font-size: 12rem;
+      opacity: 0.07;
+      top: -2rem;
+      right: 5%;
+      pointer-events: none;
+    }
+    .makeup-banner .page-banner-title { color: #5a2d3d; }
+    .makeup-banner .page-banner-sub { color: #8c5a6e; }
+    .makeup-banner .banner-tag {
+      display: inline-block;
+      background: rgba(252,200,210,0.3);
+      border: 1px solid #e8a0b0;
+      color: #5a2d3d;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.35rem 1.1rem;
+      border-radius: 50px;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: bannerIn 0.8s ease 0.1s forwards;
+    }
+    .shop-section { padding: 4rem 5%; }
+    .benefits-bar {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 2rem 5%;
+      background: var(--white);
+      border-bottom: 1px solid var(--grey-mid);
+    }
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--charcoal-soft);
+    }
+    .benefit-item span { font-size: 1.2rem; }
+  </style>
+</head>
+<body>
+  <script src="cart.js"></script>
+  <script>injectNav('makeup');</script>
+
+  <div class="makeup-banner">
+    <span class="banner-tag">✨ Colour-True Formulas</span>
+    <h1 class="page-banner-title">Makeup</h1>
+    <p class="page-banner-sub">Confident beauty — light, breathable, long-lasting</p>
+  </div>
+
+  <div class="benefits-bar">
+    <div class="benefit-item"><span>💧</span> Lightweight</div>
+    <div class="benefit-item"><span>🌸</span> Skin-Friendly</div>
+    <div class="benefit-item"><span>☀️</span> Long-Lasting</div>
+    <div class="benefit-item"><span>✅</span> Non-Comedogenic</div>
+  </div>
+
+  <section class="shop-section">
+    <div class="section-head reveal fade-up">
+      <h2 class="section-title">All Makeup</h2>
+      <p class="section-subtitle">Foundation, blush, lip colour and more — clean formulas that let your natural beauty lead.</p>
+    </div>
+    <div class="products-grid" id="makeup-grid"></div>
+  </section>
+
+  <script>
+    const makeupProducts = PRODUCTS.filter(p => p.category === 'makeup');
+    const grid = document.getElementById('makeup-grid');
+    grid.innerHTML = makeupProducts.map((p, i) => productCard(p, i * 80)).join('');
+    initScrollReveal();
+  </script>
+</body>
+</html>
